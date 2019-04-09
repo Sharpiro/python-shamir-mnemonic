@@ -158,6 +158,9 @@ class ShamirMnemonic(object):
                 - sum(self.log[share[0] ^ other[0]] for other in shares)
             ) % 255
 
+            temp = list(zip(share[1], result))
+            temp2 = list((share_val, intermediate_sum) for share_val, intermediate_sum in zip(share[1], result))
+
             result = bytes(
                 intermediate_sum
                 ^ (
