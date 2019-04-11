@@ -153,25 +153,39 @@ class ShamirMnemonic(object):
         for share in shares:
             # The logarithm of the Lagrange basis polynomial evaluated at x.
             log_basis_eval = (
+                # skip i == j numerator
                 log_prod
                 - self.log[share[0] ^ x]
+
+                # skip i = j denominator. if i == j, then s[i] ^ s[j] == 0, so no need to skip it
                 - sum(self.log[share[0] ^ other[0]] for other in shares)
             ) % 255
 
-            temp = list(zip(share[1], result))
-            temp2 = list((share_val, intermediate_sum) for share_val, intermediate_sum in zip(share[1], result))
+            # temp = list(zip(share[1], result))
+            # temp2 = list((share_val, intermediate_sum) for share_val, intermediate_sum in zip(share[1], result))
 
-            result = bytes(
-                intermediate_sum
-                ^ (
-                    self.exp[(self.log[share_val] + log_basis_eval) % 255]
-                    if share_val != 0
-                    else 0
-                )
-                for share_val, intermediate_sum in zip(share[1], result)
-            )
+            # temp3 = bytes(intermediate_sum ^ (self.exp[(self.log[share_val] + log_basis_eval) % 255] if share_val != 0 else 0 ) for share_val, intermediate_sum in zip(share[1], result))
 
-        return result
+            temp4 = []
+            for share_val, intermediate_sum in zip(share[1], result):
+                mult_result =  (self.exp[(self.log[share_val] + log_basis_eval) % 255] if share_val != 0 else 0)
+                add_result = intermediate_sum ^ mult_result
+                temp4.append(add_result)
+            result = temp4
+
+            # result = bytes(
+            #     intermediate_sum
+            #     ^ (
+            #         self.exp[(self.log[share_val] + log_basis_eval) % 255]
+            #         if share_val != 0
+            #         else 0
+            #     )
+            #     for share_val, intermediate_sum in zip(share[1], result)
+            # )
+
+        # print(x)
+        # print(shares)
+        return bytes(result)
 
     @classmethod
     def _rs1024_polymod(cls, values):
