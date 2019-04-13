@@ -186,6 +186,13 @@ class ShamirMnemonic(object):
         # print(x)
         # print(shares)
         return bytes(result)
+    
+    def gfMul(self, x, y):
+        if x == 0 or y == 0:
+            return 0
+        result = self.exp[(self.log[x] + self.log[y]) % 255]
+        return result
+
 
     @classmethod
     def _rs1024_polymod(cls, values):

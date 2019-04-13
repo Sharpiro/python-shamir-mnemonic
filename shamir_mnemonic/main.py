@@ -10,6 +10,8 @@ shamir = shamir_mnemonic.ShamirMnemonic()
 # for mnemonic in mnemonics[0]:
 #     print(mnemonic)
 
+y1 = shamir.gfMul(0, 78)
+
 x = 1
 shares = [
     (0, b'\xe6\xa3\xa1H\x07\xc8\xb1\xca-\x03\xe2Y\xb8m\x97\x0f'),
@@ -21,11 +23,11 @@ print(list(shares[1][1]))
 print(list(shares[2][1]))
 print(list(b"oN\x83\xe3\xc7(\x93\x15\xd2F\t\x84L\xa5\x8b'"))
 
-# expected = list(b"oN\x83\xe3\xc7(\x93\x15\xd2F\t\x84L\xa5\x8b'")
-# actual = list(shamir._interpolate(shares, x))
+expected = list(b"oN\x83\xe3\xc7(\x93\x15\xd2F\t\x84L\xa5\x8b'")
+actual = list(shamir._interpolate(shares, x))
 
-# result = expected == actual
-# print(result)
+result = expected == actual
+print(result)
 
 
 # def ghetto_polate(shares, x):
