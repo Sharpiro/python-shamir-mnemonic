@@ -1,6 +1,6 @@
-# import shamir_mnemonic
+import shamir_mnemonic
 
-# shamir = shamir_mnemonic.ShamirMnemonic()
+shamir = shamir_mnemonic.ShamirMnemonic()
 
 # groups = [(3, 5)]
 # group_threshold = 1
@@ -33,18 +33,21 @@
 # def ghetto_polate(shares, x):
 #     pass
 
-# n = 16
-# padding = 10 - (n*8) % 10
+n = 16
+padding = 10 - (n*8) % 10
 
-# id = 15
-# iteration_exponent = 5
-# group_index = 4
-# group_threshold = 4
-# group_count = 4
-# member_index = 4
-# member_threshold = 4
-# padded_share_value = padding + (8 * n)
-# checksum = 30
+id = 99
+iteration_exponent = 0
+group_index = 0
+group_threshold = 1
+group_count = 1
+member_index = 0
+member_threshold = 3
+padded_share_value = padding + (8 * n)
+checksum = 30
+
+temp = shamir.encode_mnemonic(id, iteration_exponent, group_index, group_threshold, group_count,
+    member_index, member_threshold, bytes(padded_share_value))
 
 # total_bits = (id + iteration_exponent + group_index + group_threshold + group_count +
 #               member_index + member_threshold + padded_share_value + checksum)
@@ -54,82 +57,5 @@
 # print("total bits:", total_bits)
 
 
-'''
-0111 // 7
-0101 // 5
-1110 // carry
-1100 // result = 12
-'''
 
 
-'''
-10001 // 17
-00101 // 5
-00010 // carry
-10110 // result = 22
-'''
-
-
-def add_bin(x, y):
-    carry = 0
-    sum = ""
-    sum_temp = 0
-    z = 0
-    for i in range(9):
-        two_power = 1 << i
-        x_i = (x & two_power) >> i
-        y_i = (y & two_power) >> i
-        sum_i_carry = x_i ^ y_i ^ carry
-
-        if (sum_i_carry == 1):
-            z = z ^ two_power
-        else:
-            temp = 2
-        # print("x_i:", x_i)
-        # print("y_i:", y_i)
-        # print("carry:", carry)
-        # print("sum_i:", sum_i)
-        # print("sum_i_carry:", sum_i_carry)
-        # print("---------------")
-        sum += str(sum_i_carry)
-        # sum_temp = sum_temp << 1
-        # if (sum_i_carry == 1):
-        #     sum_temp = sum_temp | 1
-        # update
-        # carry = x_i | y_i | carry
-        carry = (x_i & y_i) | (x_i & carry) | (y_i & carry)
-        # if x_i and y_i equal 1
-        # or x_i and carry equal 1
-        # or y_i and carry equal 1
-        # x >>= 1
-        # y >>= 1
-
-    # if (carry == 1):
-        # sum_temp = sum_temp << sum_i_carry
-        # sum_temp  = sum_temp | 1
-        # sum += str(carry)
-
-    # sum_temp = sum_temp << carry
-    # sum_temp = sum_temp | carry
-    # z = z << carry
-    # z = z | carry
-
-    return (sum, sum_temp, z)
-
-
-x = 12
-y = 5
-z = (bin(x+y)[2:], x + y)
-# print(bin(x)[2:])
-# print(bin(y)[2:])
-# print(z)
-# (print(x + y), 99)
-# print(add_bin(x, y))
-
-
-for i in range(255):
-    for j in range(255):
-        bin_res = add_bin(i, j)[2]
-        norm_res = i + j
-        assert bin_res == norm_res
-        print(i, j)
