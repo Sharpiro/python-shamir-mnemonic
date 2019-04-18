@@ -1,3 +1,4 @@
+from collections import namedtuple
 import shamir_mnemonic
 
 shamir = shamir_mnemonic.ShamirMnemonic()
@@ -10,6 +11,24 @@ shamir = shamir_mnemonic.ShamirMnemonic()
 # for mnemonic in mnemonics[0]:
 #     print(mnemonic)
 
+# data = (1, 2, 3, 4, 5)
+# checksum = shamir.rs1024_create_checksum(data)
+# isValid = shamir.rs1024_verify_checksum(data + checksum)
+
+# assert isValid
+
+# print(isValid)
+
+mnemonic_str = "academic corner academic acid amuse duckling adorn network tackle swing replace pistol twin mineral aide venture element glad sniff insect replace firm hormone beard pile dough check move lily voice founder mineral solution"
+MnemonicData = namedtuple(
+    "MnemonicData",
+    "str identifier exponent group_index group_threshold group_count index threshold value"
+)
+
+decoded = shamir.decode_mnemonic(mnemonic_str)
+# MnemonicData(*decoded)
+temp = MnemonicData(mnemonic_str, *decoded)
+temp=3
 # y1 = shamir.gfMul(0, 78)
 
 # x = 1
@@ -33,21 +52,21 @@ shamir = shamir_mnemonic.ShamirMnemonic()
 # def ghetto_polate(shares, x):
 #     pass
 
-n = 16
-padding = 10 - (n*8) % 10
+# n = 16
+# padding = 10 - (n*8) % 10
 
-id = 99
-iteration_exponent = 0
-group_index = 0
-group_threshold = 1
-group_count = 1
-member_index = 0
-member_threshold = 3
-padded_share_value = padding + (8 * n)
-checksum = 30
+# id = 99
+# iteration_exponent = 0
+# group_index = 0
+# group_threshold = 1
+# group_count = 1
+# member_index = 0
+# member_threshold = 3
+# padded_share_value = padding + (8 * n)
+# checksum = 30
 
-temp = shamir.encode_mnemonic(id, iteration_exponent, group_index, group_threshold, group_count,
-    member_index, member_threshold, bytes(padded_share_value))
+# temp = shamir.encode_mnemonic(id, iteration_exponent, group_index, group_threshold, group_count,
+#     member_index, member_threshold, bytes(padded_share_value))
 
 # total_bits = (id + iteration_exponent + group_index + group_threshold + group_count +
 #               member_index + member_threshold + padded_share_value + checksum)
