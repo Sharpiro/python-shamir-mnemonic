@@ -19,6 +19,9 @@ shamir = shamir_mnemonic.ShamirMnemonic()
 
 # print(isValid)
 
+# academic corner academic acid amuse duckling adorn network tackle swing replace pistol twin mineral aide venture element glad sniff insect replace firm hormone beard pile dough check move lily voice founder mineral solution
+# academic corner academic agency answer voting aspect true tadpole retailer jewelry email alcohol budget owner process marvel laser voice observe tricycle patent texture evidence necklace cultural secret flavor phrase woman enjoy payment pumps
+# academic corner academic always argue primary building born holiday float column campus ceiling endless crucial evaluate slush news order pregnant practice warn hobo skunk judicial station very blessing image thank radar subject elephant
 mnemonic_str = "academic corner academic acid amuse duckling adorn network tackle swing replace pistol twin mineral aide venture element glad sniff insect replace firm hormone beard pile dough check move lily voice founder mineral solution"
 MnemonicData = namedtuple(
     "MnemonicData",
