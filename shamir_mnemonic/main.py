@@ -1,7 +1,7 @@
 from collections import namedtuple
 import shamir_mnemonic
-
-shamir = shamir_mnemonic.ShamirMnemonic()
+import hashlib
+# shamir = shamir_mnemonic.ShamirMnemonic()
 
 # groups = [(3, 5)]
 # group_threshold = 1
@@ -10,6 +10,25 @@ shamir = shamir_mnemonic.ShamirMnemonic()
 
 # for mnemonic in mnemonics[0]:
 #     print(mnemonic)
+
+def to_bytes(number, endianness, length):
+    byteList = list(number >> i * 8 & 255 for i in range(length))
+    return byteList if endianness == "little" else byteList[::-1]
+
+id = 725425835
+T = 3
+
+ten_bit_numbers = list(((id >> i * 10) & 2**10-1) for i in range(2, -1, -1))
+byte_lists = list(to_bytes(i, "little", 2) for i in ten_bit_numbers)
+flat_bytes = list(j for i in byte_lists for j in i)
+salt = bytes("slip0039", "utf8") + bytes(flat_bytes) + bytes([T])
+print(len(salt))
+print(salt.hex())
+print(salt.hex() == "736c697030303339b3024703ab0203")
+
+# hash = hashlib.pbkdf2_hmac("sha256", bytes(), salt, 20000)
+# print(hash.hex())
+# print(len(list(hash)))
 
 # data = (1, 2, 3, 4, 5)
 # checksum = shamir.rs1024_create_checksum(data)
@@ -22,17 +41,17 @@ shamir = shamir_mnemonic.ShamirMnemonic()
 # academic corner academic acid amuse duckling adorn network tackle swing replace pistol twin mineral aide venture element glad sniff insect replace firm hormone beard pile dough check move lily voice founder mineral solution
 # academic corner academic agency answer voting aspect true tadpole retailer jewelry email alcohol budget owner process marvel laser voice observe tricycle patent texture evidence necklace cultural secret flavor phrase woman enjoy payment pumps
 # academic corner academic always argue primary building born holiday float column campus ceiling endless crucial evaluate slush news order pregnant practice warn hobo skunk judicial station very blessing image thank radar subject elephant
-mnemonic_str = "academic corner academic acid amuse duckling adorn network tackle swing replace pistol twin mineral aide venture element glad sniff insect replace firm hormone beard pile dough check move lily voice founder mineral solution"
-MnemonicData = namedtuple(
-    "MnemonicData",
-    "str identifier exponent group_index group_threshold group_count index threshold value"
-)
+# mnemonic_str = "academic corner academic acid amuse duckling adorn network tackle swing replace pistol twin mineral aide venture element glad sniff insect replace firm hormone beard pile dough check move lily voice founder mineral solution"
+# MnemonicData = namedtuple(
+#     "MnemonicData",
+#     "str identifier exponent group_index group_threshold group_count index threshold value"
+# )
 
-decoded = shamir.decode_mnemonic(mnemonic_str)
-# MnemonicData(*decoded)
-temp = MnemonicData(mnemonic_str, *decoded)
-temp=3
-# y1 = shamir.gfMul(0, 78)
+# decoded = shamir.decode_mnemonic(mnemonic_str)
+# # MnemonicData(*decoded)
+# temp = MnemonicData(mnemonic_str, *decoded)
+# temp=3
+# # y1 = shamir.gfMul(0, 78)
 
 # x = 1
 # shares = [
@@ -77,7 +96,3 @@ temp=3
 # print("share bits:", n*8)
 # print("padded share:", padded_share_value)
 # print("total bits:", total_bits)
-
-
-
-
