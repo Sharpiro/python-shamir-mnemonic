@@ -33,6 +33,8 @@ class ConfigurationError(Exception):
 class MnemonicError(Exception):
     pass
 
+class DigestError(Exception):
+    pass
 
 class ShamirMnemonic(object):
     RADIX_BITS = 10
@@ -331,7 +333,7 @@ class ShamirMnemonic(object):
             random_part = digest_share[self.DIGEST_LENGTH_BYTES :]
 
             if digest != self._create_digest(random_part, shared_secret):
-                raise MnemonicError("Invalid digest of the shared secret.")
+                raise DigestError("Invalid digest of the shared secret.")
 
         return shared_secret
 
