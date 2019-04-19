@@ -4,7 +4,7 @@ from collections import defaultdict, namedtuple
 import click
 from click import style
 
-from .shamir_mnemonic import MnemonicError, ShamirMnemonic
+from .shamir_mnemonic import MnemonicError, DigestError, ShamirMnemonic
 
 shamir = ShamirMnemonic()
 
@@ -210,6 +210,9 @@ def recover(passphrase_prompt):
                 break
             except MnemonicError:
                 pass
+            except DigestError as e:
+                error(str(e))
+                return
 
             print_status()
 
